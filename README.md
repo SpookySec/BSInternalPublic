@@ -39,7 +39,7 @@ Open the .sln file in Visual Studio, Ctrl + Shift + B to compile solution, find 
 
 Use any injector, the game has no anti cheat so even Process Hacker's DLL injector should work fine.
 
-## Demo for my collaborators
+## Demos
 [![Demo Video](https://github.com/SpookySec/BSInternalPublic/raw/master/img/Banana_shooter_internal_showcase.gif)](https://youtu.be/j3O7KYmS2kk)
 
 ![IMGUI Menu](https://github.com/SpookySec/BSInternalPublic/blob/master/img/image.png)
