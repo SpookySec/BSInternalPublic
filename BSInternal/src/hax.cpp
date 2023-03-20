@@ -1,5 +1,6 @@
 #include <MinHook.h>
 #include <iostream>
+#include <mutex>
 #include "../hdr/offsets.h"
 #include "../hdr/hax.h"
 #include "../hdr/config.h"
@@ -156,6 +157,26 @@ void __stdcall hkClientPlayer_Update(Multiplayer_Client_ClientPlayer_o* __this, 
 #ifdef DEBUG
     printf("[+] ClientPlayer.Update() called!\n");
 #endif
+    if (!__this || !__this->fields.m_CachedPtr)
+        return oClientPlayer_Update(__this, method);
+
+    bool in_list = false;
+    for (auto client : Globals::Hax::playerList)
+        if (client == __this)
+            in_list = true;
+
+    if (!in_list)
+    {
+
+        if (__this->fields._IsLocal_k__BackingField)
+            Globals::Hax::localPlayer = __this;
+        else
+        {
+            Globals::Hax::playerListMutex.lock();
+            Globals::Hax::playerList.push_back(__this);
+            Globals::Hax::playerListMutex.unlock();
+        }
+    }
 
     // Nothing here yet
     return oClientPlayer_Update(__this, method);
@@ -205,6 +226,18 @@ void __stdcall hkClientPlayer_TakeDamage(Multiplayer_Client_ClientPlayer_o* __th
     return oClientPlayer_TakeDamage(__this, damage, point, normal, fromClient, hitMarket, method);
 }
 
+void __stdcall hkKickVote_Update(KickVote_o* __this, MethodInfo* method)
+{
+    if (Config::dictatorship)
+    {
+        if (__this->klass->static_fields->VoteKicking)
+            __this->klass->static_fields->VoteKicking->fields.disAgreeCount = 69;
+
+
+        //__this->klass->static_fields->VoteKicking = NULL;
+    }
+}
+
 MH_STATUS InitHooks()
 {
     std::vector<MH_STATUS> hooks_status{};
@@ -251,6 +284,9 @@ MH_STATUS InitHooks()
     // TAKE DAMAGE
     hooks_status.push_back(MH_CreateHook(reinterpret_cast<LPVOID*>(Globals::Hax::gameAssembly + Offsets::ClientPlayer::TakeDamage), &hkClientPlayer_TakeDamage, (LPVOID*)&oClientPlayer_TakeDamage));
     hooks_status.push_back(MH_EnableHook(reinterpret_cast<LPVOID*>(Globals::Hax::gameAssembly + Offsets::ClientPlayer::TakeDamage)));
+
+    hooks_status.push_back(MH_CreateHook(reinterpret_cast<LPVOID*>(Globals::Hax::gameAssembly + Offsets::VoteKicking::Update), &hkKickVote_Update, (LPVOID*)&oKickVote_Update));
+    hooks_status.push_back(MH_EnableHook(reinterpret_cast<LPVOID*>(Globals::Hax::gameAssembly + Offsets::VoteKicking::Update)));
     
     for (auto status : hooks_status)
     {

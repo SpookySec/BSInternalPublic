@@ -15,8 +15,6 @@
 #include "../hdr/config.h"
 #include "../hdr/globals.h"
 
-#pragma comment(lib, "d3d11.lib")
-
 void HackThread(LPVOID hModule)
 {
     Globals::Hax::gameAssembly = (uintptr_t)GetModuleHandle("GameAssembly.dll");
@@ -25,7 +23,7 @@ void HackThread(LPVOID hModule)
     MH_STATUS hax_status;
     bool kiero_status = false;
 
-    fp = CreateConsole();
+    //fp = CreateConsole();
 
     printf("[+] DLL injected!\n");
 
@@ -45,14 +43,22 @@ void HackThread(LPVOID hModule)
         catch (...) {
             printf("FAILED\n");
         }
+
+
     } while (!kiero_status);
 
     printf("[+] Kiero hooks created successfully!\n");
     InitHooks();
     printf("[+] Cheat hooks created successfully!\n");
 
-    FreeConsole();
-    fclose(fp);
+    //FreeConsole();
+    //fclose(fp);
+    while (!GetAsyncKeyState(VK_END))
+        Sleep(200);
+    
+    kiero::shutdown();
+    MH_DisableHook(MH_ALL_HOOKS);
+    FreeLibraryAndExitThread(static_cast<HMODULE>(hModule), EXIT_SUCCESS);
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule,
@@ -63,7 +69,10 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     if (ul_reason_for_call == DLL_PROCESS_ATTACH)
     {
         DisableThreadLibraryCalls(hModule);
-        CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)HackThread, hModule, NULL, NULL);
+        const HANDLE hThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)HackThread, hModule, NULL, NULL);
+        
+        if (hThread)
+            CloseHandle(hThread); // so?
     }
 
     return TRUE;

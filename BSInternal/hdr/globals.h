@@ -3,6 +3,7 @@
 #include "il2cpp.h"
 #include "gui.h"
 #include <vector>
+#include <mutex>
 
 namespace Globals
 {
@@ -10,6 +11,7 @@ namespace Globals
     {
         inline uintptr_t gameAssembly{ NULL };
         inline Multiplayer_Client_ClientPlayer_o* localPlayer{ NULL };
+        inline std::mutex playerListMutex{};
         inline std::vector<Multiplayer_Client_ClientPlayer_o*> playerList{ NULL };
 
         inline tCreateExplosiveBullet oCreateExplosiveBullet{ NULL };

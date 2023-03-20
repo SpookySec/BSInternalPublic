@@ -1150,6 +1150,68 @@ struct PlayerMovement_StaticFields {
     struct PlayerMovement_o* Instance;
 };
 
+struct KickVote_Fields : UnityEngine_MonoBehaviour_Fields {
+    struct TMPro_TextMeshProUGUI_o* agreeCountText;
+    struct TMPro_TextMeshProUGUI_o* disAgreeCountText;
+    struct UnityEngine_Localization_Components_LocalizeStringEvent_o* kick;
+    struct UnityEngine_Localization_Components_LocalizeStringEvent_o* vote;
+    struct UnityEngine_Vector3_o desiredPos;
+    struct UnityEngine_Vector3_o showPos;
+    struct UnityEngine_Vector3_o defaultPos;
+    struct UnityEngine_RectTransform_o* kickMessage;
+    struct System_String_o* kickPlayerName;
+    struct System_String_o* votePlayerName;
+    struct UnityEngine_UI_Button_o* agreeBtn;
+    struct UnityEngine_UI_Button_o* disAgreeBtn;
+};
+struct KickVote_VTable {
+    VirtualInvokeData _0_Equals;
+    VirtualInvokeData _1_Finalize;
+    VirtualInvokeData _2_GetHashCode;
+    VirtualInvokeData _3_ToString;
+};
+struct KickVote_c {
+    Il2CppClass_1 _1;
+    struct KickVote_StaticFields* static_fields;
+    Il2CppRGCTXData* rgctx_data;
+    Il2CppClass_2 _2;
+    KickVote_VTable vtable;
+};
+struct KickVote_o {
+    KickVote_c* klass;
+    void* monitor;
+    KickVote_Fields fields;
+};
+struct KickVote_StaticFields {
+    struct KickVote_o* Instance;
+    struct VoteKicking_o* VoteKicking;
+};
+
+struct __declspec(align(8)) VoteKicking_Fields {
+    uint16_t PlayerId;
+    uint16_t FromClient;
+    uint16_t agreeCount;
+    uint16_t disAgreeCount;
+    struct System_Collections_Generic_Dictionary_ushort__bool__o* Players;
+};
+struct VoteKicking_VTable {
+    VirtualInvokeData _0_Equals;
+    VirtualInvokeData _1_Finalize;
+    VirtualInvokeData _2_GetHashCode;
+    VirtualInvokeData _3_ToString;
+};
+struct VoteKicking_c {
+    Il2CppClass_1 _1;
+    void* static_fields;
+    Il2CppRGCTXData* rgctx_data;
+    Il2CppClass_2 _2;
+    VoteKicking_VTable vtable;
+};
+struct VoteKicking_o {
+    VoteKicking_c* klass;
+    void* monitor;
+    VoteKicking_Fields fields;
+};
 
 namespace il2cpp {
     inline std::string to_string(System_String_o* str)

@@ -40,9 +40,10 @@ void __stdcall hkClientPlayer_Update(Multiplayer_Client_ClientPlayer_o* __this, 
 inline void(__fastcall* oClientPlayer_TakeDamage)(Multiplayer_Client_ClientPlayer_o*, int32_t, UnityEngine_Vector3_o, UnityEngine_Vector3_o, uint16_t, bool, MethodInfo*);
 void __stdcall hkClientPlayer_TakeDamage(Multiplayer_Client_ClientPlayer_o* __this, int32_t damage, UnityEngine_Vector3_o point, UnityEngine_Vector3_o normal, uint16_t fromClient, bool hitMarket, MethodInfo* method);
 
-
 inline void(__fastcall* oPlayerMovement_Update)(PlayerMovement_o*, MethodInfo*);
 void __stdcall hkPlayerMovement_Update(PlayerMovement_o* __this, MethodInfo* method);
 
+inline void(__fastcall* oKickVote_Update)(KickVote_o*, MethodInfo*);
+void __stdcall hkKickVote_Update(KickVote_o* __this, MethodInfo* method);
 
 MH_STATUS InitHooks();

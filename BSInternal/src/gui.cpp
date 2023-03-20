@@ -94,6 +94,7 @@ void Menu(bool render)
     ImGui::Checkbox("Explosive bullets", &Config::explosive_bullets);
     ImGui::Checkbox("Swearing bypass", &Config::swear_bypass);
     ImGui::Checkbox("Space bullets", &Config::space_bullets);
+    ImGui::Checkbox("Dictatorship", &Config::dictatorship);
     ImGui::Checkbox("Full auto (beta)", &Config::full_auto);
     ImGui::Checkbox("Explosive melees (beta)", &Config::explosive_melees);
     ImGui::Checkbox("School shooter (beta)", &Config::school_shooter);
@@ -118,6 +119,15 @@ void Menu(bool render)
     {
         Config::Values::speedfactor = 1.f;
         Config::Values::movespeed = 4500.f;
+    }
+
+    // EXCLUSIVE LOADING ANIMATIONS NEVER SEEN BEFORE!!!
+    if (ImGui::Button("DISABLE ALL", ImVec2(ImGui::GetWindowContentRegionWidth()*.999, 20)))
+    {
+        for (bool* opt : Config::conf)
+        {
+            *opt = false;
+        }
     }
 
     ImGui::End();

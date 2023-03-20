@@ -37,4 +37,9 @@ namespace Offsets {
     {
         inline uintptr_t Update = 0x3a2a20;
     }
+
+    namespace VoteKicking
+    {
+        inline uintptr_t Update = 0x36aed0;
+    }
 }
