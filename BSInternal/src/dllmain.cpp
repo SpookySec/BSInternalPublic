@@ -15,6 +15,7 @@
 #include "../hdr/config.h"
 #include "../hdr/globals.h"
 
+#pragma comment(lib, "d3d11.lib")
 
 void HackThread(LPVOID hModule)
 {
