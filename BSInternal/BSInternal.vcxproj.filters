@@ -68,18 +68,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="hdr\offsets.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\il2cpp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\hax.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ext\imgui\imconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -107,9 +95,6 @@
     <ClInclude Include="ext\kiero\kiero.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ext\kiero\minhook\include\MinHook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -134,13 +119,31 @@
     <ClInclude Include="ext\kiero\minhook\src\trampoline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ext\kiero\minhook\dll_resources\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="hdr\globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hdr\gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ext\kiero\minhook\dll_resources\resource.h">
+    <ClInclude Include="hdr\hax.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\il2cpp.bak.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\offsets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\il2cpp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

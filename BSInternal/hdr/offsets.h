@@ -42,4 +42,18 @@ namespace Offsets {
     {
         inline uintptr_t Update = 0x36aed0;
     }
+
+    namespace Unity
+    {
+        inline uintptr_t transform = 0x1ca2650;
+        inline uintptr_t position = 0x1cce680;
+        inline uintptr_t current = 0x1c80bd0;
+        inline uintptr_t WorldToScreen = 0x1c80810;
+    }
+
+    namespace Outline
+    {
+        inline uintptr_t onEnable = 0x34d780;
+        inline uintptr_t onDisable = 0x34d660;
+    }
 }

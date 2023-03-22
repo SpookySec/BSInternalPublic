@@ -1,10 +1,13 @@
 #include <MinHook.h>
 #include <iostream>
 #include <mutex>
+#include <windef.h>
 #include "../hdr/offsets.h"
 #include "../hdr/hax.h"
 #include "../hdr/config.h"
 #include "../hdr/globals.h"
+#include "../hdr/il2cpp.h"
+
 
 //#define DEBUG
 
@@ -160,23 +163,61 @@ void __stdcall hkClientPlayer_Update(Multiplayer_Client_ClientPlayer_o* __this, 
     if (!__this || !__this->fields.m_CachedPtr)
         return oClientPlayer_Update(__this, method);
 
-    bool in_list = false;
-    for (auto client : Globals::Hax::playerList)
-        if (client == __this)
-            in_list = true;
 
-    if (!in_list)
+    if (!oCheckMultiplayerGameModeStarted(NULL, NULL))
     {
+        Globals::Hax::playerListMutex.lock();
+        Globals::Hax::playerList.clear();
+        Globals::Hax::playerListMutex.unlock();
+    }
 
-        if (__this->fields._IsLocal_k__BackingField)
-            Globals::Hax::localPlayer = __this;
-        else
+    // Get the ent list
+    if (!__this->fields._Dead_k__BackingField && !__this->fields._IsLocal_k__BackingField)
+    {
+        bool in_list = false;
+        for (auto client : Globals::Hax::playerList)
+            if (client == __this)
+                in_list = true;
+
+        if (!in_list)
         {
-            Globals::Hax::playerListMutex.lock();
-            Globals::Hax::playerList.push_back(__this);
-            Globals::Hax::playerListMutex.unlock();
+
+            if (__this->fields._IsLocal_k__BackingField)
+                Globals::Hax::localPlayer = __this;
+
+            else
+            {
+                Globals::Hax::playerListMutex.lock();
+                Globals::Hax::playerList.push_back(__this);
+                Globals::Hax::playerListMutex.unlock();
+            }
         }
     }
+
+    else if (__this->fields._IsLocal_k__BackingField)
+        Globals::Hax::localPlayer = __this;
+
+    for (auto p : Globals::Hax::playerList)
+    {
+        if (Config::wallhackz)
+        {
+            if (p->fields._outlineType != 0)
+            {
+                p->fields._outlineType = 0;
+                Globals::Hax::oOnEnable(p->fields.outline);
+            }
+        }
+        else 
+        {
+            if (p->fields._outlineType == 0)
+            {
+                p->fields._outlineType = 2;
+                Globals::Hax::oOnDisable(p->fields.outline);
+            }
+        }
+    }
+
+
 
     // Nothing here yet
     return oClientPlayer_Update(__this, method);
@@ -208,6 +249,9 @@ void __stdcall hkPlayerMovement_Update(PlayerMovement_o* __this, MethodInfo* met
         __this->fields.maxAirSpeed = 1.f;
         __this->fields.moveSpeedFactor = 1.f;
     }
+
+    if (__this->fields._player->fields._IsLocal_k__BackingField)
+        Globals::Hax::camera = __this->fields.cam;
 
     return oPlayerMovement_Update(__this, method);
 }
@@ -244,6 +288,13 @@ MH_STATUS InitHooks()
 
     Globals::Hax::oCreateExplosiveBullet = (tCreateExplosiveBullet)(Globals::Hax::gameAssembly + Offsets::Firearms::CreateExplosiveBullet);
     Globals::Hax::oAddChat = (tAddChat)(Globals::Hax::gameAssembly + Offsets::Chat::AddChat);
+    Globals::Hax::oTransform = (tTransform)(Globals::Hax::gameAssembly + Offsets::Unity::transform);
+    Globals::Hax::oPosition = (tPosition)(Globals::Hax::gameAssembly + Offsets::Unity::position);
+    Globals::Hax::oCurrent = (tCurrent)(Globals::Hax::gameAssembly + Offsets::Unity::current);
+    Globals::Hax::oWorldToScreenPoint = (tWorldToScreenPoint)(Globals::Hax::gameAssembly + Offsets::Unity::WorldToScreen);
+    Globals::Hax::oOnEnable = (tOnEnable)(Globals::Hax::gameAssembly + Offsets::Outline::onEnable);
+    Globals::Hax::oOnDisable = (tOnEnable)(Globals::Hax::gameAssembly + Offsets::Outline::onDisable);
+
     MH_STATUS status = MH_OK;
 
     // INSTA RELOAD
@@ -275,7 +326,8 @@ MH_STATUS InitHooks()
     hooks_status.push_back(MH_EnableHook(reinterpret_cast<LPVOID*>(Globals::Hax::gameAssembly + Offsets::Bullet::Initialization)));
 
     // CLIENT UPDATE
-    //MH_CreateHook(reinterpret_cast<LPVOID*>(Globals::Hax::gameAssembly + Offsets::ClientPlayer::Update), &hkClientPlayer_Update, (LPVOID*)&oClientPlayer_Update);
+    hooks_status.push_back(MH_CreateHook(reinterpret_cast<LPVOID*>(Globals::Hax::gameAssembly + Offsets::ClientPlayer::Update), &hkClientPlayer_Update, (LPVOID*)&oClientPlayer_Update));
+    hooks_status.push_back(MH_EnableHook(reinterpret_cast<LPVOID*>(Globals::Hax::gameAssembly + Offsets::ClientPlayer::Update)));
 
     // PLAYERMOVEMENT UPDATE
     hooks_status.push_back(MH_CreateHook(reinterpret_cast<LPVOID*>(Globals::Hax::gameAssembly + Offsets::PlayerMovement::Update), &hkPlayerMovement_Update, (LPVOID*)&oPlayerMovement_Update));

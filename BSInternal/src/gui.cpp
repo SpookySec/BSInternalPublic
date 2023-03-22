@@ -59,24 +59,30 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 
     Menu(render);
 
+    // Code for updating the ent list every frame
+    Globals::Hax::playerListMutex.lock();
+
+    // ESP CODE HERE
+
+    // Clear list
+    Globals::Hax::playerList.clear();
+
+    // Unlock
+    Globals::Hax::playerListMutex.unlock();
+
+
+
     ImGui::Render();
 
     Globals::Gui::pContext->OMSetRenderTargets(1, &Globals::Gui::mainRenderTargetView, NULL);
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
-    ImGuiIO& io = ImGui::GetIO();
-
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-    {
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-    }
 
     return Globals::Gui::oPresent(pSwapChain, SyncInterval, Flags);
 }
 
 void Menu(bool render)
 {
+    ImGui::SetNextWindowPos(ImVec2());
     ImGui::SetNextWindowSize(ImVec2(300.f, 340.f), ImGuiCond_Once);
  
     if (!render)
@@ -85,6 +91,7 @@ void Menu(bool render)
     ImGui::Begin("Spooky Hax", &::render, Globals::Gui::windowFlags);
 
     ImGui::Checkbox("Aim assist", &Config::aim_assist);
+    ImGui::Checkbox("Wallhacks", &Config::wallhackz);
     ImGui::Checkbox("Fast firerate", &Config::fast_firerate);
     ImGui::Checkbox("Quick reload", &Config::instant_reload);
     ImGui::Checkbox("No recoil", &Config::disable_recoil);
@@ -122,11 +129,19 @@ void Menu(bool render)
     }
 
     // EXCLUSIVE LOADING ANIMATIONS NEVER SEEN BEFORE!!!
-    if (ImGui::Button("DISABLE ALL", ImVec2(ImGui::GetWindowContentRegionWidth()*.999, 20)))
+    if (ImGui::Button("DISABLE ALL", ImVec2(ImGui::GetWindowContentRegionWidth() * .999, 20)))
     {
         for (bool* opt : Config::conf)
         {
             *opt = false;
+        }
+    }
+
+    if (ImGui::Button("ENABLE ALL", ImVec2(ImGui::GetWindowContentRegionWidth() * .999, 20)))
+    {
+        for (bool* opt : Config::conf)
+        {
+            *opt = true;
         }
     }
 

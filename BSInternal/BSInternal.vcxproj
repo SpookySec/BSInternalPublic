@@ -216,8 +216,9 @@
     <ClInclude Include="hdr\globals.h" />
     <ClInclude Include="hdr\gui.h" />
     <ClInclude Include="hdr\hax.h" />
-    <ClInclude Include="hdr\offsets.h" />
+    <ClInclude Include="hdr\il2cpp.bak.h" />
     <ClInclude Include="hdr\il2cpp.h" />
+    <ClInclude Include="hdr\offsets.h" />
     <ClInclude Include="hdr\utils.h" />
   </ItemGroup>
   <ItemGroup>

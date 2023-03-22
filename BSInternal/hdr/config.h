@@ -6,6 +6,7 @@ namespace Config
     inline bool spam = false; // Supposed to allow for chat spam, still in testing phase
     inline bool full_auto = false; // Makes all guns shoot full auto
     inline bool frog_mode = false; // Infinite jumps
+    inline bool wallhackz = false; // ESP
     inline bool no_damage = false; // Takes no damage
     inline bool aim_assist = false; // Gives you aim assist (NOT AIMBOT BUT AIM ASSIST)
     inline bool super_speed = false; // Makes you the Flash
@@ -22,7 +23,7 @@ namespace Config
     inline bool* conf[] = {
         &spam, &full_auto, &frog_mode, &no_damage, &aim_assist, &super_speed, &swear_bypass,
         &space_bullets, &fast_firerate, &school_shooter, &disable_recoil, &instant_reload,
-        &armor_piercing, &explosive_melees, &explosive_bullets, &dictatorship 
+        &armor_piercing, &explosive_melees, &explosive_bullets, &dictatorship, &wallhackz
     }; // PLEASE NEVER LISTEN TO VANY AGAIN (more emphasis on this btw)
 
     namespace Values

@@ -19,11 +19,11 @@ void HackThread(LPVOID hModule)
 {
     Globals::Hax::gameAssembly = (uintptr_t)GetModuleHandle("GameAssembly.dll");
 
-    FILE* fp;
-    MH_STATUS hax_status;
+    FILE* fp = NULL;
+    MH_STATUS hax_status = MH_ERROR_NOT_INITIALIZED;
     bool kiero_status = false;
 
-    //fp = CreateConsole();
+    fp = CreateConsole();
 
     printf("[+] DLL injected!\n");
 
@@ -51,8 +51,8 @@ void HackThread(LPVOID hModule)
     InitHooks();
     printf("[+] Cheat hooks created successfully!\n");
 
-    //FreeConsole();
-    //fclose(fp);
+    FreeConsole();
+    fclose(fp);
     while (!GetAsyncKeyState(VK_END))
         Sleep(200);
     

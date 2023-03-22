@@ -10,12 +10,20 @@ namespace Globals
     namespace Hax
     {
         inline uintptr_t gameAssembly{ NULL };
+        inline uintptr_t unityEngine{ NULL };
         inline Multiplayer_Client_ClientPlayer_o* localPlayer{ NULL };
+        inline UnityEngine_Camera_o* camera{ NULL };
         inline std::mutex playerListMutex{};
         inline std::vector<Multiplayer_Client_ClientPlayer_o*> playerList{ NULL };
 
         inline tCreateExplosiveBullet oCreateExplosiveBullet{ NULL };
         inline tAddChat oAddChat{ NULL };
+        inline tTransform oTransform{ NULL };
+        inline tPosition oPosition{ NULL };
+        inline tCurrent oCurrent{ NULL };
+        inline tWorldToScreenPoint oWorldToScreenPoint{ NULL };
+        inline tOnEnable oOnEnable{ NULL };
+        inline tOnEnable oOnDisable{ NULL };
     }
 
     namespace Gui
