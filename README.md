@@ -25,7 +25,7 @@ namespace Config
 ## TODO
 - [x] Add a proper IMGUI menu
 - [ ] Think of more features (can use some help and inspiration)
-- [ ] Add ESP
+- [x] Add ESP
 - [x] Again make some way to enable/disable cheats on runtime, currently the only way to enable them is through the `config.h`
 which requires recompiliation which is stupid
 - [x] Figure out why it's sometimes crashing upon injection???
